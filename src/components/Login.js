@@ -9,6 +9,7 @@ const Login = () => {
 
     function addNewEmployee() {
         navigate('/add-employee')
+      
 }
 
     return (
