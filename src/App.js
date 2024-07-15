@@ -1,25 +1,52 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'; // Correct import
 
-function App() {
+import LoginForm from './LoginForm';
+import ManagerPage from './ManagerPage';
+import EmployeePage from './EmployeePage';
+
+const App = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [username, setUsername] = useState('');
+  const [role, setRole] = useState('');
+
+  const handleLogin = (userId, userRole) => {
+    setUsername(userId);
+    setRole(userRole);
+    setIsLoggedIn(true);
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setUsername('');
+    setRole('');
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <header className="App-header">
+          <Switch>
+            <Route path="/" exact>
+              {isLoggedIn ? (
+                role === 'manager' ? (
+                  <ManagerPage username={username} />
+                ) : (
+                  <EmployeePage username={username} />
+                )
+              ) : (
+                <LoginForm onLogin={handleLogin} />
+              )}
+            </Route>
+          </Switch>
+          {isLoggedIn && (
+            <button onClick={handleLogout}>Logout</button>
+          )}
+        </header>
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;
