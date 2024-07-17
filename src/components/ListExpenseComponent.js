@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { listExpenses } from '../services/EmployeeService'; // Assuming you have a service for expense operations
+import { listExpenses, updateExpense, deleteExpense } from '../services/EmployeeService'; // Assuming you have a service for expense operations
 
 const ListExpenseComponent = () => {
+    
     const [expenses, setExpenses] = useState([]);
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -21,15 +23,32 @@ const ListExpenseComponent = () => {
             });
     };
 
-    
+    const removeExpense = (expenseId) => {
+        deleteExpense(expenseId).then((response) =>{
+         getAllExpenses();
+ 
+        }).catch(error =>{
+            console.log(error);
+        })
+         
+     }
+
+    const editExpense = (expenseId) => {
+        updateExpense(expenseId).then((response) =>{
+         getAllExpenses();
+ 
+        }).catch(error =>{
+            console.log(error);
+        })
+         
+     }
 
     const addNewExpense = () => {
         navigate('/add-expense');
     };
+    
 
-    const editExpense = (expenseId) => {
-        navigate(`/edit-expense/${expenseId}`);
-    };
+    
 
     return (
         <div className="container">
@@ -48,26 +67,29 @@ const ListExpenseComponent = () => {
                         <th>Type</th>
                         <th>Amount</th>
                         <th>Employee ID</th>
+                        <th>Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {expenses.map((expense) => (
+                    {expenses.map(expense => 
                         <tr key={expense.exid}>
                             <td>{expense.exid}</td>
                             <td>{expense.type}</td>
                             <td>{expense.amount}</td>
                             <td>{expense.eid}</td>
+                            <td>{expense.status}</td>
                             <td>
                                 <button
-                                    className="btn btn-info"
-                                    onClick={() => editExpense(expense.id)}
+                                    className="btn btn-info"onClick={() => editExpense(expense.exid)}
                                 >
-                                    Edit
+                                    Approve
                                 </button>
+                                <button className = "btn btn-danger" onClick = {() => removeExpense(expense.exid)}
+                                    style = {{marginLeft:"10px"}}> Reject</button>
                             </td>
                         </tr>
-                    ))}
+                    )}
                 </tbody>
             </table>
         </div>

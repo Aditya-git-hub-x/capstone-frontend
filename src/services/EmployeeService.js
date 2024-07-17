@@ -5,9 +5,8 @@ const url = 'http://localhost:8090';
 
 export const listEmployees = async ()=>{
     const response = await axios.get(url+'/emp');
-   
     return response;
-};
+}
 
 export const createEmployee = async (employee) => {
     const response = await axios.post(url+'/emp', employee);
@@ -15,17 +14,17 @@ export const createEmployee = async (employee) => {
 }
 
 export const getEmployeeById = async (employeeId) => {
-    const response = await axios.get(url + '/emp' + employeeId);
+    const response = await axios.get(url + '/emp/' + employeeId);
     return response;
 }
 
 export const updateEmployee = async (employeeId, employee) => {
-    const response = await axios.put(url + '/emp' +employeeId, employee);
+    const response = await axios.put(url + '/emp/' +employeeId, employee);
     return response;
 }
 
 export const deleteEmployee = async (employeeId) => {
-    const response = await axios.delete(url + '/emp' + employeeId);
+    const response = await axios.delete(url + '/emp/' + employeeId);
     return response;
 }
 
@@ -35,11 +34,22 @@ export const createExpense = async (expense) => {
 }
 
 export const getExpenseById = async (exid) => {
-    const response = await axios.get(url + '/emp' + exid);
+    const response = await axios.get(url + '/exp/' + exid);
     return response;
 }
 
 export const listExpenses = async ()=>{
     const response = await axios.get(url+'/exp');
     return response;
-};
+}
+
+export const updateExpense = async (exid) => {
+    const response = await axios.put(url +'/exp/' + exid);
+    return response;
+}
+
+
+export const deleteExpense = async (expenseId) => {
+    const response = await axios.delete(url + '/exp/' + expenseId);
+    return response;
+}

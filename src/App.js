@@ -6,8 +6,10 @@ import ListEmployeeComponent from './components/ListEmployeeComponent';
 import EmployeeComponent from './components/EmployeeComponent';
 import ExpenseComponent from './components/ExpenseComponent';
 import ListExpenseComponent from './components/ListExpenseComponent';
-import Home from './components/Home'
+import LoginForm from './components/LoginForm'
 import './App.css';
+import EmployeePage from './components/EmployeePage';
+import ManagerPage from './components/ManagerPage';
 
 
 
@@ -22,7 +24,9 @@ function App() {
         <HeaderComponent />
         <div className= "container">
           <Routes>
-              <Route exact path = "/" element = { <Home /> }></Route>
+              <Route exact path = "/" element = { <LoginForm /> }></Route>
+              <Route exact path = "/employee" element = { <EmployeePage /> }></Route>
+              <Route exact path = "/manager" element = { <ManagerPage /> }></Route>
               <Route exact path = "/expense" element = { <ListExpenseComponent /> }></Route>
               <Route exact path = "/add-expense" element = { <ExpenseComponent /> }></Route>
               <Route path = "/employees" element = { <ListEmployeeComponent /> }></Route>
