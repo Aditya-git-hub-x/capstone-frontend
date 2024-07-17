@@ -47,7 +47,6 @@ const ListEmployeeComponent = () => {
                     <tr>
                         <th> Employee Id </th>
                         <th> Employee Name </th>
-                        <th> Actions </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -57,10 +56,6 @@ const ListEmployeeComponent = () => {
                             <tr key = {employee.id}> 
                                 <td> {employee.id} </td>
                                 <td> {employee.name} </td>
-                                <td>
-                                    <button className = "btn btn-danger" onClick = {() => removeEmployee(employee.id)}
-                                    style = {{marginLeft:"10px"}}> Delete</button>
-                                </td>
                             </tr>
                         )
                     }
