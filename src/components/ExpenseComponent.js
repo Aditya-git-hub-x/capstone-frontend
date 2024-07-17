@@ -6,10 +6,12 @@ const ExpenseComponent = () => {
     const [type, setType] = useState('');
     const [amount, setAmount] = useState('');
     const [eid, setEid] = useState('');
+    const [bill, setBill] = useState(null); // State to hold the selected file
 
     const [typeError, setTypeError] = useState('');
     const [amountError, setAmountError] = useState('');
     const [eidError, setEidError] = useState('');
+    const [billError, setBillError] = useState('');
 
     const navigate = useNavigate();
     const { exid } = useParams();
@@ -44,7 +46,19 @@ const ExpenseComponent = () => {
             setEidError('');
         }
 
+        if (!bill) {
+            setBillError('Bill image is required');
+            isValid = false;
+        } else {
+            setBillError('');
+        }
+
         return isValid;
+    };
+
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        setBill(file);
     };
 
     const saveExpense = (e) => {
@@ -54,12 +68,19 @@ const ExpenseComponent = () => {
             return;
         }
 
-        const expense = { type, amount, eid };
-        console.log(expense);
-        createExpense(expense)
+        const formData = new FormData();
+        formData.append('type', type);
+        formData.append('amount', amount);
+        formData.append('eid', eid);
+        formData.append('bill', bill);
+
+        console.log(formData);
+
+        createExpense(formData)
             .then((response) => {
                 console.log(response.data);
                 navigate('/');
+                window.alert('Form submitted successfully!');
             })
             .catch((error) => {
                 console.log(error);
@@ -144,6 +165,18 @@ const ExpenseComponent = () => {
                                     {eidError && <div className="text-danger">{eidError}</div>}
                                 </div>
 
+                                <div className="form-group">
+                                    <label className="form-label">Bill Image:</label>
+                                    <input
+                                        type="file"
+                                        accept=".jpg,.jpeg"
+                                        name="bill"
+                                        className={`form-control ${billError ? 'is-invalid' : ''}`}
+                                        onChange={handleFileChange}
+                                    />
+                                    {billError && <div className="text-danger">{billError}</div>}
+                                </div>
+
                                 <button className="btn btn-success" onClick={(e) => saveExpense(e)}>
                                     Submit
                                 </button>
@@ -157,3 +190,4 @@ const ExpenseComponent = () => {
 };
 
 export default ExpenseComponent;
+

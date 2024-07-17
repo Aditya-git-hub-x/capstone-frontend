@@ -1,26 +1,22 @@
-import React from 'react'
-import {useNavigate} from 'react-router-dom';
+import React, { useState } from 'react';
+import ListExpenseComponent from './ListExpenseComponent';
+import ListEmployeeComponent from './ListEmployeeComponent';
+import ExpenseComponent from './ExpenseComponent';
+
 const ManagerPage = () => {
-
-    const navigate = useNavigate()
-
-    function addNewExpense() {
-        navigate('/add-expense')   
-    }
-    function ListExpense() {
-        navigate('/expense')   
-    }
-    function ListEmployee() {
-        navigate('/employees')   
-    }
+    const [currentView, setCurrentView] = useState(''); // State to track the current view
 
     return (
         <div>
-            <button className = "btn btn-primary mb-2" onClick={ListExpense }>List Expense</button>
-            <button className = "btn btn-primary mb-2" onClick={ ListEmployee}>List Employee</button>
-            <button className = "btn btn-primary mb-2" onClick={addNewExpense }>Add Expense</button>
+            <button className="btn btn-primary mb-2" onClick={() => setCurrentView('listExpense')}>List Expense</button>
+            <button className="btn btn-primary mb-2" onClick={() => setCurrentView('listEmployee')}>List Employee</button>
+            <button className="btn btn-primary mb-2" onClick={() => setCurrentView('addExpense')}>Add Expense</button>
+
+            {currentView === 'listExpense' && <ListExpenseComponent />}
+            {currentView === 'listEmployee' && <ListEmployeeComponent />}
+            {currentView === 'addExpense' && <ExpenseComponent />}
         </div>
-    )
-}
+    );
+};
 
 export default ManagerPage;
