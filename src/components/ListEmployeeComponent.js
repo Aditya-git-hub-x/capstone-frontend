@@ -1,74 +1,70 @@
-import React, {useState, useEffect} from 'react'
-import { useNavigate } from 'react-router-dom'
-import {listEmployees, deleteEmployee} from '../services/EmployeeService'
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { listEmployees, deleteEmployee } from '../services/EmployeeService';
 
 const ListEmployeeComponent = () => {
-
-    const [employees, setEmployees] = useState([])
-
-    const navigate = useNavigate()
+    const [employees, setEmployees] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         getAllEmployees();
-    }, [])
+    }, []);
 
     const getAllEmployees = () => {
-        listEmployees().then((response) => {
-            setEmployees(response.data)
-            console.log(response.data);
-        }).catch(error =>{
-            console.log(error);
-        })
-    }
+        listEmployees()
+            .then((response) => {
+                setEmployees(response.data);
+            })
+            .catch((error) => {
+                console.log('Error fetching employees:', error);
+            });
+    };
 
     const removeEmployee = (employeeId) => {
-       deleteEmployee(employeeId).then((response) =>{
-        getAllEmployees();
+        deleteEmployee(employeeId)
+            .then(() => {
+                getAllEmployees(); // Refresh the employee list after deletion
+            })
+            .catch((error) => {
+                console.log('Error deleting employee:', error);
+            });
+    };
 
-       }).catch(error =>{
-           console.log(error);
-       })
-        
-    }
-
-    function addNewEmployee() {
-        navigate('/add-employee')
-    }
-
+    const addNewEmployee = () => {
+        navigate('/add-employee'); // Navigate to add employee page
+    };
 
     return (
-        <div className = "container">
-            <br /><br />
-            <h2 className = "text-center"> Employees List</h2>
-            {/* <Link to = "/add-employee" className = "btn btn-primary mb-2" > Add Employee </Link> */}
+        <div className="mt-4"> {/* Added top margin to move the component up */}
+             
+        
+            <h2 className="text-center">Employees List</h2>
+           
             <table className="table table-bordered table-striped">
-                {/* <thead className="table-dark"> */}
-                <thead>   
+                <thead className="table-dark">
                     <tr>
-                        <th> Employee Id </th>
-                        <th> Employee First Name </th>
-                        <th> Employee Last Name </th>
-                        <th> Mobile </th>
-                        <th> Email </th>
+                        <th>Employee ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                       
                     </tr>
                 </thead>
                 <tbody>
-                    {
-                        employees.map(
-                            employee =>
-                            <tr key = {employee.id}> 
-                                <td> {employee.id} </td>
-                                <td> {employee.firstName} </td>
-                                <td> {employee.lastName} </td>
-                                <td> {employee.mobile} </td>
-                                <td> {employee.email} </td>
-                            </tr>
-                        )
-                    }
+                    {employees.map((employee) => (
+                        <tr key={employee.id}>
+                            <td>{employee.id}</td>
+                            <td>{employee.firstName}</td>
+                            <td>{employee.lastName}</td>
+                            
+                            <td>
+                               
+                            </td>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
         </div>
-    )
-}
+    );
+};
 
-export default ListEmployeeComponent
+export default ListEmployeeComponent;

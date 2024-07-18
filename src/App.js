@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import FooterComponent from './components/FooterComponent';
@@ -10,28 +9,26 @@ import EmployeeComponent from './components/EmployeeComponent';
 import ListEmployeeComponent from './components/ListEmployeeComponent';
 import ExpenseComponent from './components/ExpenseComponent';
 import ListExpenseComponent from './components/ListExpenseComponent';
+import Dashboard from './components/Dashboard';
 import './App.css';
 
 const App = () => {
   return (
-  
     <>
-    <HeaderComponent/>
-    <div className='Container'>
+      <HeaderComponent />
+      <div className='container'>
         <Routes>
           <Route path="/" element={<LoginForm />} />
           <Route path="/employee/:id" element={<EmployeePage />} />
           <Route path="/manager" element={<ManagerPage />} />
-          <Route exact path="/expense" element={<ListExpenseComponent />} />
-          <Route exact path="/add-expense" element={<ExpenseComponent />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/add-expense" element={<ExpenseComponent />} />
           <Route path="/employees" element={<ListEmployeeComponent />} />
           <Route path="/add-employee" element={<EmployeeComponent />} />
-          
         </Routes>
       </div>
-      <FooterComponent/>
-      </>
-  
+      <FooterComponent />
+    </>
   );
 };
 
