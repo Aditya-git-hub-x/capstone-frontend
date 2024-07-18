@@ -156,7 +156,7 @@ const EmployeeComponent = () => {
                                 </div>
 
                                 <div className="form-group">
-                                    <label className="form-label">Are you a Manger:</label>
+                                    <label className="form-label">Are you a Manager:</label>
                                     <select
                                         className={`form-control ${isManagerError ? 'is-invalid' : ''}`}
                                         value={isManager}

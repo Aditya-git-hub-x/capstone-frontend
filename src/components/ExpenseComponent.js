@@ -32,7 +32,28 @@ const ExpenseComponent = () => {
             setAmountError('Amount must be a valid number greater than 0');
             isValid = false;
         } else {
-            setAmountError('');
+            switch (type) {
+                case 'internet':
+                    if (amount > 2000) {
+                        setAmountError('Amount for internet cannot exceed 2000');
+                        isValid = false;
+                    }
+                    break;
+                case 'medical':
+                    if (amount > 50000) {
+                        setAmountError('Amount for medical cannot exceed 50000');
+                        isValid = false;
+                    }
+                    break;
+                case 'travel':
+                    if (amount > 5000) {
+                        setAmountError('Amount for travel cannot exceed 5000');
+                        isValid = false;
+                    }
+                    break;
+                default:
+                    setAmountError('');
+            }
         }
 
         if (!eid) {
@@ -178,4 +199,3 @@ const ExpenseComponent = () => {
 };
 
 export default ExpenseComponent;
-
