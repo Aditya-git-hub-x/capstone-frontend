@@ -6,6 +6,7 @@ const LoginForm = () => {
     const [userId, setUserId] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [userIderror, setUserIderrror] = useState('');
 
     const navigate = useNavigate();
 
@@ -14,8 +15,27 @@ const LoginForm = () => {
 
       getEmployeeById(userId).then((response) =>{
           console.log(response.data)
+          // Simulate login (replace with actual authentication logic)
+          let role = 'employee'; // Default role
+
+          if (password === 'managerpass') {
+              role = 'manager';
+          } else if (password === 'employeepass') {
+              role = 'employee';
+          } else {
+              setError('Invalid User ID or Password.');
+              return;
+          }
+
+          // Navigate based on role
+          if (role === 'manager') {
+              navigate(`/manager`);
+          } else {
+              navigate(`/employee/${userId}`);
+          }
       }).catch(error => {
           console.log(error)
+          alert("Invalid user id")
       })
 
         // Basic validation
@@ -24,24 +44,9 @@ const LoginForm = () => {
             return;
         }
 
-        // Simulate login (replace with actual authentication logic)
-        let role = 'employee'; // Default role
+        
 
-        if (password === 'managerpass') {
-            role = 'manager';
-        } else if (password === 'employeepass') {
-            role = 'employee';
-        } else {
-            setError('Invalid User ID or Password.');
-            return;
-        }
-
-        // Navigate based on role
-        if (role === 'manager') {
-            navigate(`/manager`);
-        } else {
-            navigate(`/employee/${userId}`);
-        }
+        
     };
 
     return (
