@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, Link, useParams } from 'react-router-dom';
+import { getEmployeeById } from '../services/EmployeeService';
 
-const LoginForm = ({ onLogin }) => {
+const LoginForm = () => {
     const [userId, setUserId] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -9,7 +10,13 @@ const LoginForm = ({ onLogin }) => {
     const navigate = useNavigate();
 
     const handleLogin = (event) => {
-        event.preventDefault();
+      event.preventDefault();
+
+      getEmployeeById(userId).then((response) =>{
+          console.log(response.data)
+      }).catch(error => {
+          console.log(error)
+      })
 
         // Basic validation
         if (!userId.trim() || !password.trim()) {
@@ -20,9 +27,9 @@ const LoginForm = ({ onLogin }) => {
         // Simulate login (replace with actual authentication logic)
         let role = 'employee'; // Default role
 
-        if (userId === 'manager' && password === 'managerpass') {
+        if (password === 'managerpass') {
             role = 'manager';
-        } else if (userId === 'employee' && password === 'employeepass') {
+        } else if (password === 'employeepass') {
             role = 'employee';
         } else {
             setError('Invalid User ID or Password.');
@@ -31,9 +38,9 @@ const LoginForm = ({ onLogin }) => {
 
         // Navigate based on role
         if (role === 'manager') {
-            navigate('/manager');
+            navigate(`/manager`);
         } else {
-            navigate('/employee');
+            navigate(`/employee/${userId}`);
         }
     };
 
@@ -45,7 +52,7 @@ const LoginForm = ({ onLogin }) => {
                     <div style={{ marginBottom: '20px' }}>
                         <label style={{ fontWeight: 'bold', marginBottom: '5px', display: 'block' }}>User ID:</label>
                         <input
-                            type="text"
+                            type="number"
                             value={userId}
                             onChange={(e) => setUserId(e.target.value)}
                             style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '5px' }}

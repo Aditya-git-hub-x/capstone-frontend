@@ -5,15 +5,16 @@ import { createEmployee } from '../services/EmployeeService';
 const EmployeeComponent = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-    const [gpnId, setGpnId] = useState('');
     const [mobile, setMobile] = useState('');
     const [email, setEmail] = useState('');
+    const [isManager, setisManager] = useState('');
+
 
     const [firstNameError, setFirstNameError] = useState('');
     const [lastNameError, setLastNameError] = useState('');
-    const [gpnIdError, setGpnIdError] = useState('');
     const [mobileError, setMobileError] = useState('');
     const [emailError, setEmailError] = useState('');
+    const [isManagerError, setisManagerError] = useState('');
 
     const navigate = useNavigate();
 
@@ -34,12 +35,6 @@ const EmployeeComponent = () => {
             setLastNameError('');
         }
 
-        if (!gpnId || !/^\d+$/.test(gpnId)) {
-            setGpnIdError('GPN Id must be a number');
-            isValid = false;
-        } else {
-            setGpnIdError('');
-        }
 
         if (!mobile || !/^\d{10}$/.test(mobile)) {
             setMobileError('Mobile Number must be a 10-digit number');
@@ -53,6 +48,12 @@ const EmployeeComponent = () => {
             isValid = false;
         } else {
             setEmailError('');
+        }
+        if (!isManager) {
+            setisManagerError(' Are you a Manager required');
+            isValid = false;
+        } else {
+            setisManagerError('');
         }
 
         return isValid;
@@ -68,17 +69,18 @@ const EmployeeComponent = () => {
         const employee = {
             firstName,
             lastName,
-            gpnId,
             mobile,
-            email
+            email,
+            isManager
         };
-        alert('Form submitted successfully!'); // Show alert message
+        
 
         console.log(employee);
 
         createEmployee(employee)
             .then((response) => {
                 console.log(response.data);
+                alert('Form submitted successfully!'); // Show alert message
                 
                 navigate('/');
             })
@@ -128,19 +130,6 @@ const EmployeeComponent = () => {
                                 </div>
 
                                 <div className="mb-3">
-                                    <label className="form-label">GPN Id:</label>
-                                    <input
-                                        type="text"
-                                        placeholder="Enter GPN Id"
-                                        name="gpnId"
-                                        className={`form-control ${gpnIdError ? 'is-invalid' : ''}`}
-                                        value={gpnId}
-                                        onChange={(e) => setGpnId(e.target.value)}
-                                    />
-                                    {gpnIdError && <div className="invalid-feedback">{gpnIdError}</div>}
-                                </div>
-
-                                <div className="mb-3">
                                     <label className="form-label">Mobile Number:</label>
                                     <input
                                         type="text"
@@ -164,6 +153,23 @@ const EmployeeComponent = () => {
                                         onChange={(e) => setEmail(e.target.value)}
                                     />
                                     {emailError && <div className="invalid-feedback">{emailError}</div>}
+                                </div>
+
+                                <div className="form-group">
+                                    <label className="form-label">Are you a Manger:</label>
+                                    <select
+                                        className={`form-control ${isManagerError ? 'is-invalid' : ''}`}
+                                        value={isManager}
+                                        onChange={(e) => {
+                                            setisManager(e.target.value);
+                                            setisManagerError('');
+                                        }}
+                                    >
+                                        <option value="">Select Option</option>
+                                        <option value="yes">Yes</option>
+                                        <option value="no">No</option>
+                                    </select>
+                                    {isManagerError && <div className="text-danger">{isManagerError}</div>}
                                 </div>
 
                                 <button className="btn btn-success" onClick={(e) => saveEmployee(e)}>

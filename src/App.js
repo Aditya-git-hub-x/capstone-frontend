@@ -20,7 +20,7 @@ const App = () => {
     <div className='Container'>
         <Routes>
           <Route path="/" element={<LoginForm />} />
-          <Route path="/employee" element={<EmployeePage />} />
+          <Route path="/employee/:id" element={<EmployeePage />} />
           <Route path="/manager" element={<ManagerPage />} />
           <Route exact path="/expense" element={<ListExpenseComponent />} />
           <Route exact path="/add-expense" element={<ExpenseComponent />} />

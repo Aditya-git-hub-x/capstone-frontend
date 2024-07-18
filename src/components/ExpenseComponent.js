@@ -11,7 +11,6 @@ const ExpenseComponent = () => {
     const [typeError, setTypeError] = useState('');
     const [amountError, setAmountError] = useState('');
     const [eidError, setEidError] = useState('');
-    const [billError, setBillError] = useState('');
 
     const navigate = useNavigate();
     const { exid } = useParams();
@@ -46,18 +45,12 @@ const ExpenseComponent = () => {
             setEidError('');
         }
 
-        if (!bill) {
-            setBillError('Bill image is required');
-            isValid = false;
-        } else {
-            setBillError('');
-        }
-
         return isValid;
     };
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
+        console.log(file);
         setBill(file);
     };
 
@@ -68,15 +61,11 @@ const ExpenseComponent = () => {
             return;
         }
 
-        const formData = new FormData();
-        formData.append('type', type);
-        formData.append('amount', amount);
-        formData.append('eid', eid);
-        formData.append('bill', bill);
+        const expense = { type, amount, eid };
 
-        console.log(formData);
+        console.log(expense);
 
-        createExpense(formData)
+        createExpense(expense)
             .then((response) => {
                 console.log(response.data);
                 navigate('/');
@@ -171,10 +160,9 @@ const ExpenseComponent = () => {
                                         type="file"
                                         accept=".jpg,.jpeg"
                                         name="bill"
-                                        className={`form-control ${billError ? 'is-invalid' : ''}`}
+                                        className={`form-control `}
                                         onChange={handleFileChange}
                                     />
-                                    {billError && <div className="text-danger">{billError}</div>}
                                 </div>
 
                                 <button className="btn btn-success" onClick={(e) => saveExpense(e)}>
