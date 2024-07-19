@@ -5,6 +5,7 @@ import { getEmployeeById } from '../services/EmployeeService';
 const LoginForm = () => {
     const [userId, setUserId] = useState('');
     const [password, setPassword] = useState('');
+    
     const [error, setError] = useState('');
     const [userIderror, setUserIderrror] = useState('');
 
@@ -29,7 +30,7 @@ const LoginForm = () => {
 
           // Navigate based on role
           if (role === 'manager') {
-              navigate(`/manager`);
+              navigate(`/manager/${userId}`);
           } else {
               navigate(`/employee/${userId}`);
           }

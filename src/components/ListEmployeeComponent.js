@@ -43,7 +43,7 @@ const ListEmployeeComponent = () => {
             <table className="table table-bordered table-striped">
                 <thead className="table-dark">
                     <tr>
-                        <th>Employee ID</th>
+                        <th>Emp ID</th>
                         <th>First Name</th>
                         <th>Last Name</th>
                        
@@ -55,10 +55,6 @@ const ListEmployeeComponent = () => {
                             <td>{employee.id}</td>
                             <td>{employee.firstName}</td>
                             <td>{employee.lastName}</td>
-                            
-                            <td>
-                               
-                            </td>
                         </tr>
                     ))}
                 </tbody>

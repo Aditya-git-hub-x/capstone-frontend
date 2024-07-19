@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {useNavigate, useParams } from 'react-router-dom';
-import { getEmployeeById } from '../services/EmployeeService';
+import { getEmployeeById, getAllExpenseByEid } from '../services/EmployeeService';
 
 const EmployeePage = () => {
 
@@ -8,9 +8,29 @@ const EmployeePage = () => {
     const [lastName, setLastName] = useState('');
     const [mobile, setMobile] = useState('');
     const [email, setEmail] = useState('');
+    
+    const [expenses, setExpenses] = useState([]);
 
     const navigate = useNavigate()
     const { id } = useParams();
+
+    const containerStyle = {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        padding: '20px',
+        backgroundColor: '#f0f8ff',
+        gap: '20px',
+        borderRadius: '10px',
+    };
+
+    const columnStyle = {
+        flex: '1',
+        padding: '20px',
+        backgroundColor: '#ffffff',
+        borderRadius: '10px',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    };
 
     function addNewExpense() {
         navigate('/add-expense')   
@@ -28,13 +48,20 @@ const EmployeePage = () => {
             }).catch(error => {
                 console.log(error)
             })
+            getAllExpenseByEid(id).then((response) =>{
+                setExpenses(response.data)
+                //console.log(response.data)
+            }).catch(error => {
+                console.log(error)
+            })
         }
 
     }, [id])
+
     
     return (
-        <div>
-            <button className = "btn btn-primary mb-2" onClick={addNewExpense }>Add Expense</button>
+        <div style={containerStyle}>
+            <div style={columnStyle}>
             <div className="container mt-4">
             <div className="card">
                 <div className="card-body">
@@ -44,6 +71,42 @@ const EmployeePage = () => {
                     <p><strong>Mobile:</strong> {mobile}</p>
                     <p><strong>Email:</strong> {email}</p></div>
             </div>
+            </div>
+        </div>
+        <div style={columnStyle}>
+        <div className="mt-4">
+      <h2 className="text-center">Expenses List</h2>
+      <table className="table table-bordered table-striped">
+        <thead className="table-dark">
+          <tr>
+            <th>Exp ID</th>
+            <th>Type</th>
+            <th>Amount</th>
+            <th>Emp ID</th>
+            <th>Status</th>
+            <th>Document</th> {/* New column for Document */}
+          </tr>
+        </thead>
+        <tbody>
+          {expenses.map((expense) => (
+            <tr key={expense.exid}>
+              <td>{expense.exid}</td>
+              <td>{expense.type}</td>
+              <td>{expense.amount}</td>
+              <td>{expense.eid}</td>
+              <td>{expense.status}</td>
+              <td>{expense.billName}</td> {/* Display billName as Document */}
+            
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <div className="text-end">
+        <button className="btn btn-primary" onClick={addNewExpense}>
+          Add Expense
+        </button>
+      </div>
+    </div>
         </div>
         </div>
     )

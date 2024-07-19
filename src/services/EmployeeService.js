@@ -43,13 +43,23 @@ export const listExpenses = async ()=>{
     return response;
 }
 
-export const updateExpense = async (exid) => {
-    const response = await axios.put(url +'/exp/' + exid);
+export const updateExpenseApprove = async (exid) => {
+    const response = await axios.put(url +'/exp/approve/' + exid);
+    return response;
+}
+
+export const updateExpenseReject = async (exid) => {
+    const response = await axios.put(url +'/exp/reject/' + exid);
     return response;
 }
 
 
 export const deleteExpense = async (expenseId) => {
     const response = await axios.delete(url + '/exp/' + expenseId);
+    return response;
+}
+
+export const getAllExpenseByEid = async (eid) => {
+    const response = await axios.get(url + '/exp/eid/' + eid);
     return response;
 }

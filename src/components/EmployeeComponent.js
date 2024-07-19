@@ -167,7 +167,7 @@ const EmployeeComponent = () => {
                                     >
                                         <option value="">Select Option</option>
                                         <option value="yes">Yes</option>
-                                        <option value="no">No</option>
+                                        <option value="">No</option>
                                     </select>
                                     {isManagerError && <div className="text-danger">{isManagerError}</div>}
                                 </div>

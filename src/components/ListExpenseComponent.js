@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { listExpenses, updateExpense, deleteExpense } from '../services/EmployeeService';
+import { listExpenses, updateExpenseApprove, updateExpenseReject } from '../services/EmployeeService';
 
 const ListExpenseComponent = () => {
   const [expenses, setExpenses] = useState([]);
@@ -21,8 +21,14 @@ const ListExpenseComponent = () => {
       });
   };
 
-  const removeExpense = (expenseId) => {
-    deleteExpense(expenseId)
+  const rejectExpense = (expenseId) => {
+    const remarks = prompt('Please enter remarks for rejection:');
+    if (remarks === null || remarks.trim() === '') {
+      alert('Remarks are required for rejection.');
+      return;
+    }
+    
+    updateExpenseReject(expenseId, remarks)
       .then((response) => {
         getAllExpenses();
       })
@@ -31,8 +37,8 @@ const ListExpenseComponent = () => {
       });
   };
 
-  const editExpense = (expenseId) => {
-    updateExpense(expenseId)
+  const approveExpense = (expenseId) => {
+    updateExpenseApprove(expenseId)
       .then((response) => {
         getAllExpenses();
       })
@@ -46,16 +52,17 @@ const ListExpenseComponent = () => {
   };
 
   return (
-    <div className="mt-4"> {/* Added top margin to move the component up */}
+    <div className="mt-4">
       <h2 className="text-center">Expenses List</h2>
       <table className="table table-bordered table-striped">
         <thead className="table-dark">
           <tr>
-            <th>Expense ID</th>
+            <th>Exp ID</th>
             <th>Type</th>
             <th>Amount</th>
-            <th>Employee ID</th>
+            <th>Emp ID</th>
             <th>Status</th>
+            <th>Document</th> {/* New column for Document */}
             <th>Actions</th>
           </tr>
         </thead>
@@ -67,11 +74,12 @@ const ListExpenseComponent = () => {
               <td>{expense.amount}</td>
               <td>{expense.eid}</td>
               <td>{expense.status}</td>
+              <td>{expense.billName}</td> {/* Display billName as Document */}
               <td>
-                <button className="btn btn-info" onClick={() => editExpense(expense.exid)}>
+                <button className="btn btn-info" onClick={() => approveExpense(expense.exid)}>
                   Approve
                 </button>
-                <button className="btn btn-danger" onClick={() => removeExpense(expense.exid)} style={{ marginLeft: '10px' }}>
+                <button className="btn btn-danger" onClick={() => rejectExpense(expense.exid)} style={{ marginLeft: '10px' }}>
                   Reject
                 </button>
               </td>

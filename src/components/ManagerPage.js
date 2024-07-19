@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import {useNavigate, useParams } from 'react-router-dom';
 import ListExpenseComponent from './ListExpenseComponent';
 import ListEmployeeComponent from './ListEmployeeComponent';
-import ExpenseComponent from './ExpenseComponent';
-
 const ManagerPage = () => {
-    const [showAddExpense, setShowAddExpense] = useState(false);
+
+    
+    const { id } = useParams();
 
     const containerStyle = {
         display: 'flex',
@@ -66,14 +67,6 @@ const ManagerPage = () => {
             </div>
             <div style={columnStyle}>
                 
-                <div style={buttonContainerStyle}>
-
-                </div>
-                {showAddExpense && (
-                    <div style={formStyle}>
-                        <ExpenseComponent inputStyle={inputStyle} />
-                    </div>
-                )}
                 <ListExpenseComponent />
             </div>
         </div>

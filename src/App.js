@@ -9,7 +9,6 @@ import EmployeeComponent from './components/EmployeeComponent';
 import ListEmployeeComponent from './components/ListEmployeeComponent';
 import ExpenseComponent from './components/ExpenseComponent';
 import ListExpenseComponent from './components/ListExpenseComponent';
-import Dashboard from './components/Dashboard';
 import './App.css';
 
 const App = () => {
@@ -20,8 +19,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<LoginForm />} />
           <Route path="/employee/:id" element={<EmployeePage />} />
-          <Route path="/manager" element={<ManagerPage />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/manager/:id" element={<ManagerPage />} />
           <Route path="/add-expense" element={<ExpenseComponent />} />
           <Route path="/employees" element={<ListEmployeeComponent />} />
           <Route path="/add-employee" element={<EmployeeComponent />} />

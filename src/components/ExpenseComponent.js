@@ -7,6 +7,7 @@ const ExpenseComponent = () => {
     const [amount, setAmount] = useState('');
     const [eid, setEid] = useState('');
     const [bill, setBill] = useState(null); // State to hold the selected file
+    const [billName, setBillName] = useState(''); // State to hold the file name
 
     const [typeError, setTypeError] = useState('');
     const [amountError, setAmountError] = useState('');
@@ -73,6 +74,7 @@ const ExpenseComponent = () => {
         const file = e.target.files[0];
         console.log(file);
         setBill(file);
+        setBillName(file.name); // Set the file name
     };
 
     const saveExpense = (e) => {
@@ -82,7 +84,7 @@ const ExpenseComponent = () => {
             return;
         }
 
-        const expense = { type, amount, eid };
+        const expense = { type, amount, eid, billName }; // Include billName in the expense object
 
         console.log(expense);
 
@@ -104,6 +106,8 @@ const ExpenseComponent = () => {
                     setType(response.data.type);
                     setAmount(response.data.amount);
                     setEid(response.data.eid);
+                    // Assuming the file name is stored in the database for editing purpose
+                    setBillName(response.data.billName || ''); 
                 })
                 .catch((error) => {
                     console.log(error);
